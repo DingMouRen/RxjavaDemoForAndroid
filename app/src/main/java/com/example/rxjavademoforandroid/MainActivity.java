@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.rxjavademoforandroid.demo.BackgroundTaskActivity;
 import com.example.rxjavademoforandroid.demo.OptimizeSearchActivity;
+import com.example.rxjavademoforandroid.demo.RollPolingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,4 +26,9 @@ public class MainActivity extends AppCompatActivity {
      * 优化搜索联想
      */
     public void btn2(View view){startActivity(new Intent(this, OptimizeSearchActivity.class));}
+
+    /**
+     * 轮询操作
+     */
+    public void btn3(View view){startActivity(new Intent(this, RollPolingActivity.class));}
 }

@@ -20,6 +20,7 @@
         <activity android:name=".TurnActivity"/>
         <activity android:name=".demo.BackgroundTaskActivity"/>
         <activity android:name=".demo.OptimizeSearchActivity"/>
+        <activity android:name=".demo.RollPolingActivity"/>
     </application>
 
 </manifest>

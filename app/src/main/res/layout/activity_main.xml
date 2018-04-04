@@ -26,6 +26,13 @@
             android:text="优化搜索联想"
             android:onClick="btn2"
             />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="轮询操作"
+            android:onClick="btn3"
+            />
 
     </LinearLayout>
 

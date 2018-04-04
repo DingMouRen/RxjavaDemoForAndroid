@@ -95,7 +95,7 @@ compile 'io.reactivex.rxjava2:rxandroid:2.0.1' //关于安卓主线程的是添�
  
  CompositeDisposable用来管理下游与上游的连接关系。CompositeDisposable里面通过OpenHashSet来存储所有的Disposable对象，CompositeDisposable.clear()可以断开所有下游与上游的连接关系，下游不再接收上游的任何消息。我们可以在Activity或Fragment对应的生命周期调用clear方法，来避免内存泄漏的发生。
  
- ### 2.优化搜索联想功能
+ ### **2.优化搜索联想功能**
  
  #### 应用场景
  
@@ -231,6 +231,62 @@ compile 'io.reactivex.rxjava2:rxandroid:2.0.1' //关于安卓主线程的是添�
 * filter操作符：filter操作符对源Observable发射的数据项按照指定的条件进行过滤，满足的条件的才会调给订阅者
 * switchMap操作符：当源Observable发射一个新的数据项时，如果旧数据项订阅还未完成，就取消旧订阅数据和停止监视那个数据项产生的Observable,开始监视新的数据项.就是说mPublishSubject.onNext(a),这个请求发出后，服务端还没有返回数据时，mPublishSubject.onNext(ab)执行了，那么就取消还没有返回数据的订阅，去完成新的订阅关系。
  
+### **3.轮询操作**
 
+#### 应用场景
 
+间隔一段时间就向服务器发起一次请求，一般使用Timer来实现。这里使用Rxjava来实现，还有一种需要轮询操作就是长连接中，每隔固定时间向服务端发送心跳包
+
+#### 实例
+```
+Observable.interval(0,1, TimeUnit.SECONDS, Schedulers.computation())
+                .flatMap(new Function<Long, ObservableSource<Long>>() {
+                    @Override
+                    public ObservableSource<Long> apply(Long aLong) throws Exception {
+                        LogUtils.e("flatmap当前线程:"+Thread.currentThread().getName());
+                        return Observable.just(aLong);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        mTv1.setText(String.valueOf(aLong));
+                        LogUtils.e("observer当前线程:"+Thread.currentThread().getName());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+```
+
+#### 实例解析
+
+interval（）属于创建型操作符，创建一个按固定时间间隔发射整数序列的Observable，有多个重载方法。
+* interval(long initialDelay, long period, TimeUnit unit)
+* interval(long initialDelay, long period, TimeUnit unit, Scheduler scheduler)
+* interval(long period, TimeUnit unit)
+* interval(long period, TimeUnit unit, Scheduler scheduler)
+* 	intervalRange(long start, long count, long initialDelay, long period, TimeUnit unit)
+* 	intervalRange(long start, long count, long initialDelay, long period, TimeUnit unit, Scheduler scheduler)
+
+参数解析：
+* initialDelay:第一次延时多久发射数据
+* period:发射数据的时间间隔（从第二次开始）
+* unit:时间单位
+* scheduler:指定发射数据所在的线程
+* start:指定第一个发射的值，不指定的话默认是0
+* count：发射的个数
 
