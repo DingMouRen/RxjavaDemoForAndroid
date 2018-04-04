@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/4/4.
+ * 后台执行好事操作，实时通知UI更新
  */
 
 public class BackgroundTaskActivity extends AppCompatActivity {

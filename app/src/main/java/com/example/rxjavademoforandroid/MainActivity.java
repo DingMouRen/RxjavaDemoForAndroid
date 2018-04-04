@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.rxjavademoforandroid.demo.BackgroundTaskActivity;
+import com.example.rxjavademoforandroid.demo.OptimizeSearchActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,4 +20,9 @@ public class MainActivity extends AppCompatActivity {
      * 后台执行好事操作，实时通知UI更新
      */
     public void btn1(View view){startActivity(new Intent(this, BackgroundTaskActivity.class));}
+
+    /**
+     * 优化搜索联想
+     */
+    public void btn2(View view){startActivity(new Intent(this, OptimizeSearchActivity.class));}
 }

@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".TurnActivity"/>
         <activity android:name=".demo.BackgroundTaskActivity"/>
+        <activity android:name=".demo.OptimizeSearchActivity"/>
     </application>
 
 </manifest>
