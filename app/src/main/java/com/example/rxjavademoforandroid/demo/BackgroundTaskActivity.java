@@ -1,8 +1,42 @@
-### **1.后台执行好事操作，实时通知UI更新**
+package com.example.rxjavademoforandroid.demo;
 
-#### 实例：
-```
- public void btn1(View view){
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+
+import com.example.rxjavademoforandroid.R;
+import com.example.rxjavademoforandroid.TurnActivity;
+import com.example.rxjavademoforandroid.util.LogUtils;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
+
+/**
+ * Created by Administrator on 2018/4/4.
+ */
+
+public class BackgroundTaskActivity extends AppCompatActivity {
+    private static final String TAG = "BackgroundTaskActivity";
+    private TextView mTv;
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();//连接关系的管理对象，使用OpenHashSet来存储Disposable对象
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_back_task);
+        mTv = findViewById(R.id.tv);
+    }
+
+    public void btn1(View view){
         //上游
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
@@ -65,33 +99,10 @@
         mCompositeDisposable.clear();//断开与下游的连接，只是下游不再接收，上游还会一直发射，直到发射结束
     }
 
-
-```
-
-#### 实例解析
-
- ##### 1.1线程切换
- 
- * 后台执行的耗时操作对应于subscribe(ObservableEmitter<Integer> emitter)中的代码。
- * 主线程进行UI更新的操作对应于Observer的所有回调，onSubscribe调用时机是上下游建立连接的时候，在上游发射之前；onNext负责进度的更新，onComplete和onError负责最终结果处理。
- * subscribeOn(Schedulers.io())：指定上游耗时操作subscribe(ObservableEmitter<Integer> emitter)方法工作在哪个线程，这里是IO线程；多次调用，以第一次指定的线程为准。
- * observeOn(AndroidSchedulers.mainThread())：指定下游的回调操作工作在哪个线程，这里是安卓的主线程；多次调用，以最后一次指定的线程为准。
-
- ##### 1.2线程类型
-* Schedulers.computation()：用于计算任务，默认线程数等于处理器的数量。
-* Schedulers.from(Executor executor)：使用Executor作为调度器。
-* Schedulers.io( )：用于IO密集型任务，例如访问网络、数据库操作等，也是我们最常使用的。
-* Schedulers.newThread( )：为每一个任务创建一个新的线程。
-* Schedulers.trampoline( )：当其它排队的任务完成后，在当前线程排队开始执行。
-* Schedulers.single()：所有任务共用一个后台线程。
-
-关于安卓主线程的是添加了这个依赖
-```
-compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-```
-* AndroidSchedulers.mainThread()：运行在应用程序的主线程。
-* AndroidSchedulers.from(Looper looper)：运行在该looper对应的线程当中。
- 
-
-
-
+    /**
+     * 跳转界面
+     */
+    public void btn2(View view){
+        TurnActivity.newInstance(this);
+    }
+}
