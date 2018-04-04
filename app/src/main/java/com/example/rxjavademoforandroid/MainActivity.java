@@ -9,6 +9,10 @@ import com.example.rxjavademoforandroid.demo.BackgroundTaskActivity;
 import com.example.rxjavademoforandroid.demo.OptimizeSearchActivity;
 import com.example.rxjavademoforandroid.demo.RollPolingActivity;
 
+/**
+ * https://www.jianshu.com/p/d135f19e045c
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
