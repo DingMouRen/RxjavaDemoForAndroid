@@ -62,7 +62,7 @@
     @Override
     protected void onPause() {
         super.onPause();
-        mCompositeDisposable.clear();//断开与下游的连接，只是下游不再接收，上游还会一直发射，直到发射结束
+        mCompositeDisposable.clear();//断开与上游的连接，只是下游不再接收，上游还会一直发射，直到发射结束
     }
 
 
@@ -78,6 +78,7 @@
  * observeOn(AndroidSchedulers.mainThread())：指定下游的回调操作工作在哪个线程，这里是安卓的主线程；多次调用，以最后一次指定的线程为准。
 
  ##### 1.2线程类型
+ 
 * Schedulers.computation()：用于计算任务，默认线程数等于处理器的数量。
 * Schedulers.from(Executor executor)：使用Executor作为调度器。
 * Schedulers.io( )：用于IO密集型任务，例如访问网络、数据库操作等，也是我们最常使用的。
@@ -89,6 +90,10 @@ compile 'io.reactivex.rxjava2:rxandroid:2.0.1' //关于安卓主线程的是添�
 ```
 * AndroidSchedulers.mainThread()：运行在应用程序的主线程。
 * AndroidSchedulers.from(Looper looper)：运行在该looper对应的线程当中。
+
+ ##### 1.3使用CompositeDisposable对下游进行管理
+ 
+ CompositeDisposable用来管理下游与上游的连接关系。CompositeDisposable里面通过OpenHashSet来存储所有的Disposable对象，CompositeDisposable.clear()可以断开所有下游与上游的连接关系，下游不再接收上游的任何消息。我们可以在Activity或Fragment对应的生命周期调用clear方法，来避免内存泄漏的发生。
  
 
 

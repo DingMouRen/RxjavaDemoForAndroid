@@ -96,7 +96,7 @@ public class BackgroundTaskActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mCompositeDisposable.clear();//断开与下游的连接，只是下游不再接收，上游还会一直发射，直到发射结束
+        mCompositeDisposable.clear();//断开与上游的连接，只是下游不再接收，上游还会一直发射，直到发射结束
     }
 
     /**
