@@ -84,10 +84,8 @@
 * Schedulers.newThread( )：为每一个任务创建一个新的线程。
 * Schedulers.trampoline( )：当其它排队的任务完成后，在当前线程排队开始执行。
 * Schedulers.single()：所有任务共用一个后台线程。
-
-关于安卓主线程的是添加了这个依赖
 ```
-compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+compile 'io.reactivex.rxjava2:rxandroid:2.0.1' //关于安卓主线程的是添加了这个依赖
 ```
 * AndroidSchedulers.mainThread()：运行在应用程序的主线程。
 * AndroidSchedulers.from(Looper looper)：运行在该looper对应的线程当中。
